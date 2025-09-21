@@ -1,5 +1,11 @@
 /Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/TallerMecanico.java
 /Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/model/Cliente.java
+/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/model/Mecanico.java
+/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/model/Odt.java
 /Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/ClienteView.java
-/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/ListaView.java
-/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/vista.java
+/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/ListaClienteView.java
+/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/ListaMecanicoView.java
+/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/ListaOdtView.java
+/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/MainView.java
+/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/MecanicoView.java
+/Users/rafaelvales/Documents/Facultad/SEGUNDO AÑO/PROGRAMACION ORIENTADA A OBJETOS/ProyectoTallerCDT/TallerMecanico/src/main/java/com/taller/tallermecanico/view/OdtView.java
