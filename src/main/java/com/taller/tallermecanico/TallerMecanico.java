@@ -1,18 +1,17 @@
-
-
 package com.taller.tallermecanico;
 
-/**
- *
- * @author rafaelvales
- */
+import com.taller.tallermecanico.conexion.Conexion;
+import java.sql.Connection;
+
 public class TallerMecanico {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-String url ="jdbc:mysql://localhost:3306/tallerdb?useSSL=false&serverTimezone=UTC";
-String USER = "root";
-String PASSWORD = "tu_contraseña";
+        Connection conn = Conexion.obtenerConexion();
+        if (conn != null) {
+            
+            System.out.println("Todo listo para iniciar el sistema...");
+        } else {
+            System.out.println("No se pudo conectar a la base de datos. Cerrando...");
+        }
     }
 }
-

@@ -1,7 +1,9 @@
 com/taller/tallermecanico/view/ListaOdtView$1.class
 com/taller/tallermecanico/view/ListaMecanicoView$3.class
 com/taller/tallermecanico/view/ClienteView$1.class
+com/taller/tallermecanico/conexion/TestConexion.class
 com/taller/tallermecanico/view/MecanicoView$2.class
+com/taller/tallermecanico/conexion/Conexion.class
 com/taller/tallermecanico/view/ListaClienteView.class
 com/taller/tallermecanico/view/ListaOdtView$3.class
 com/taller/tallermecanico/view/OdtView$5.class
