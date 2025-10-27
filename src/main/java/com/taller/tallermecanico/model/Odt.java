@@ -36,7 +36,9 @@ public class Odt {
     public void setCliente(Cliente cliente){this.cliente=cliente;}
     
     public Mecanico getMecanico(){return mecanico;}
-    public void setMecanico (Mecanico mencanico){this.mecanico=mecanico;}
+    public void setMecanico(Mecanico mecanico) {
+    this.mecanico = mecanico;
+}
     
     public String getDescripcion(){return descripcion;}
     public void setDescripcion (String descripcion){this.descripcion=descripcion;}
@@ -52,7 +54,9 @@ public class Odt {
     public void setFechaEntrega(LocalDate fechaEntrega){this.fechaEntrega=fechaEntrega;}
     
     public double getCostoTotal(){return costoTotal;}
-    public void setCostoTotal(double costeTotal){this.costoTotal=costoTotal;}
+   public void setCostoTotal(double costoTotal) {
+    this.costoTotal = costoTotal;
+}
     
     
     

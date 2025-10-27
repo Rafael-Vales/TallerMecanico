@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.taller.tallermecanico.view;
+import com.taller.tallermecanico.dao.ClienteDao;
+import com.taller.tallermecanico.model.Cliente;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,6 +18,31 @@ public class MecanicoView extends javax.swing.JFrame {
      */
     public MecanicoView() {
         initComponents();
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            char c = evt.getKeyChar();
+            if (!Character.isDigit(c) && c != '\b') {
+                evt.consume(); 
+            }
+        }
+    });
+
+    
+    jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            char c = evt.getKeyChar();
+            String text = jTextField4.getText();
+
+
+            if (!Character.isDigit(c) && c != '\b' && c != '.') {
+                evt.consume();
+            }
+
+            if (c == '.' && text.contains(".")) {
+                evt.consume(); 
+            }
+        }
+    });
     }
 
     /**
@@ -72,6 +100,11 @@ public class MecanicoView extends javax.swing.JFrame {
         });
 
         jButton4.setText("Cancelar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,13 +180,79 @@ public class MecanicoView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+    String nombre = jTextField1.getText();
+    String dniTexto = jTextField2.getText();
+    String especialidad = jTextField3.getText();
+    String sueldoTexto = jTextField4.getText();
+
+   
+    if (nombre.isEmpty() || especialidad.isEmpty() || dniTexto.isEmpty() || sueldoTexto.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
+        return;
+    }
+    
+
+    int dni;
+    double sueldo;
+
+    try {
+        dni = Integer.parseInt(dniTexto);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El DNI debe ser un número válido.");
+        return;
+    }
+
+    try {
+        sueldo = Double.parseDouble(sueldoTexto);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El sueldo debe ser un número válido.");
+        return;
+    }
+    
+    if (sueldo <= 0) {
+    JOptionPane.showMessageDialog(this, "El sueldo debe ser mayor a cero.");
+    return;
+    }
+
+    
+    com.taller.tallermecanico.model.Mecanico mecanico = new com.taller.tallermecanico.model.Mecanico();
+    mecanico.setNombre(nombre);
+    mecanico.setDni(dni);
+    mecanico.setEspecialidad(especialidad);
+    mecanico.setSueldo(sueldo);
+
+    
+    com.taller.tallermecanico.dao.MecanicoDao dao = new com.taller.tallermecanico.dao.MecanicoDao();
+    boolean guardado = dao.guardarMecanico(mecanico);
+
+    if (guardado) {
+        JOptionPane.showMessageDialog(this, "✅ Mecanico guardado correctamente.");
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+    } else {
+        JOptionPane.showMessageDialog(this, "❌ Error al guardar el mecanico.");
+    }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         new ListaMecanicoView().setVisible(true);   
-    this.dispose();// TODO add your handling code here:
+    this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "¿Estás seguro de que querés salir de la aplicación?",
+        "Salir",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        System.exit(0); 
+    }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

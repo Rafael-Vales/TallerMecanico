@@ -15,7 +15,21 @@ public class ListaMecanicoView extends javax.swing.JFrame {
      */
     public ListaMecanicoView() {
         initComponents();
+        cargarTablaMecanicos();
     }
+    
+    private void cargarTablaMecanicos() {
+    com.taller.tallermecanico.dao.MecanicoDao dao = new com.taller.tallermecanico.dao.MecanicoDao();
+    java.util.List<com.taller.tallermecanico.model.Mecanico> lista = dao.listarMecanicos();
+
+    javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+    modelo.setRowCount(0);  // Limpiar la tabla
+
+    for (com.taller.tallermecanico.model.Mecanico m : lista) {
+        modelo.addRow(new Object[]{m.getId(), m.getNombre(), m.getDni(), m.getEspecialidad(), m.getSueldo()});
+    }
+}
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,6 +81,11 @@ public class ListaMecanicoView extends javax.swing.JFrame {
         }
 
         jButton5.setText("Actualizar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Borrar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -118,8 +137,51 @@ public class ListaMecanicoView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+       int filaSeleccionada = jTable1.getSelectedRow();
+
+    if (filaSeleccionada != -1) {
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(this, "¿Seguro que deseas eliminar este mecánico?", "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            int idMecanico = (int) jTable1.getValueAt(filaSeleccionada, 0); 
+
+            com.taller.tallermecanico.dao.MecanicoDao dao = new com.taller.tallermecanico.dao.MecanicoDao();
+            boolean eliminado = dao.eliminarMecanico(idMecanico);
+
+            if (eliminado) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Mecánico eliminado correctamente.");
+                cargarTablaMecanicos(); 
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Error al eliminar mecánico.");
+            }
+        }
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "Selecciona un mecánico para eliminar.");
+    }    
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int filaSeleccionada = jTable1.getSelectedRow();
+
+    if (filaSeleccionada != -1) {
+        int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
+
+        com.taller.tallermecanico.dao.MecanicoDao dao = new com.taller.tallermecanico.dao.MecanicoDao();
+        com.taller.tallermecanico.model.Mecanico mecanico = dao.obtenerMecanicoPorId(id);
+
+        if (mecanico != null) {
+            EditarMecanicoView editarView = new EditarMecanicoView(mecanico, () -> {
+                cargarTablaMecanicos(); // para que se actualice la tabla al cerrar
+            });
+            editarView.setVisible(true);
+            editarView.setLocationRelativeTo(null); // centrado
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, " No se pudo cargar el mecánico.");
+        }
+    } else {
+        javax.swing.JOptionPane.showMessageDialog(this, "⚠️ Selecciona un mecánico para actualizar.");
+    }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments

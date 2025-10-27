@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.taller.tallermecanico.view;
 
-/**
- *
- * @author rafaelvales
- */
+import com.taller.tallermecanico.dao.ClienteDao;
+import com.taller.tallermecanico.model.Cliente;
+import javax.swing.JOptionPane;
+
+
 public class ListaClienteView extends javax.swing.JFrame {
 
     /**
@@ -15,6 +13,7 @@ public class ListaClienteView extends javax.swing.JFrame {
      */
     public ListaClienteView() {
         initComponents();
+        cargarTablaClientes();
     }
 
     /**
@@ -81,8 +80,18 @@ public class ListaClienteView extends javax.swing.JFrame {
         });
 
         jButton4.setText("Borrar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Actualizar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,9 +126,8 @@ public class ListaClienteView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton4)
-                        .addComponent(jButton5)))
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
                 .addContainerGap())
         );
 
@@ -129,12 +137,66 @@ public class ListaClienteView extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ClienteView clienteView = new ClienteView();
         clienteView.setVisible(true);
-        this.dispose();// TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int filaSeleccionada = jTable1.getSelectedRow();
+
+    if (filaSeleccionada != -1) {
+    int confirm = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas eliminar este cliente?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        int idCliente = (int) jTable1.getValueAt(filaSeleccionada, 0); 
+
+        ClienteDao dao = new ClienteDao();
+        boolean eliminado = dao.eliminarCliente(idCliente);
+
+        if (eliminado) {
+            JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente.");
+            cargarTablaClientes(); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar cliente.");
+        }
+    }
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un cliente para eliminar.");
+        }   
+    
+    
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int filaSeleccionada = jTable1.getSelectedRow();
+    if (filaSeleccionada != -1) {
+        int id = (int) jTable1.getValueAt(filaSeleccionada, 0);
+        String nombre = (String) jTable1.getValueAt(filaSeleccionada, 1);
+        String telefono = (String) jTable1.getValueAt(filaSeleccionada, 2);
+        String vehiculo = (String) jTable1.getValueAt(filaSeleccionada, 3);
+
+        Cliente cliente = new Cliente(id, nombre, telefono, vehiculo);
+        EditarClienteView editarView = new EditarClienteView(cliente, () -> {
+        cargarTablaClientes(); 
+});
+        editarView.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(this, "Selecciona un cliente para actualizar.");
+    }
+    }//GEN-LAST:event_jButton5ActionPerformed
+    private void cargarTablaClientes() {
+        ClienteDao dao = new ClienteDao();
+        java.util.List<Cliente> lista = dao.listarClientes();
+
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        modelo.setRowCount(0); 
+
+        for (Cliente c : lista) {
+            modelo.addRow(new Object[]{c.getId(), c.getNombre(), c.getTelefono(), c.getVehiculo()});
+        }
+    }
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

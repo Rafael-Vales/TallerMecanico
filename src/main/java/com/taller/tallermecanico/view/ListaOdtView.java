@@ -3,6 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.taller.tallermecanico.view;
+import com.taller.tallermecanico.dao.OdtDao;
+import com.taller.tallermecanico.model.Odt;
+import javax.swing.table.DefaultTableModel;
+
+
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,6 +22,7 @@ public class ListaOdtView extends javax.swing.JFrame {
      */
     public ListaOdtView() {
         initComponents();
+        cargarTablaOdts();
     }
 
     /**
@@ -67,8 +75,18 @@ public class ListaOdtView extends javax.swing.JFrame {
         }
 
         jButton5.setText("Actualizar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Borrar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Volver");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -116,6 +134,74 @@ public class ListaOdtView extends javax.swing.JFrame {
         this.dispose(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int fila = jTable1.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Por favor seleccioná una ODT para eliminar.");
+        return;
+    }
+
+    int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro que querés eliminar esta ODT?", "Confirmar", JOptionPane.YES_NO_OPTION);
+
+    if (confirmacion == JOptionPane.YES_OPTION) {
+        int idOdt = (int) jTable1.getValueAt(fila, 0); // columna 0 = ID
+        OdtDao dao = new OdtDao();
+
+        boolean eliminado = dao.eliminarOdt(idOdt);
+        if (eliminado) {
+            JOptionPane.showMessageDialog(this, "ODT eliminada con éxito.");
+            cargarTablaOdts(); // 🔁 recargar tabla
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al eliminar la ODT.");
+        }
+    }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int fila = jTable1.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Por favor seleccioná una ODT para editar.");
+        return;
+    }
+
+    int idOdt = (int) jTable1.getValueAt(fila, 0);
+
+    OdtDao dao = new OdtDao();
+    Odt odt = dao.buscarOdtPorId(idOdt); // Tendrás que crear este método en OdtDao
+
+    if (odt != null) {
+        new EditarOdtView(odt).setVisible(true);
+        this.dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo cargar la ODT.");
+    }
+    }//GEN-LAST:event_jButton5ActionPerformed
+private void cargarTablaOdts() {
+    OdtDao dao = new OdtDao();
+    List<Odt> lista = dao.listarOdts();
+
+    DefaultTableModel modelo = new DefaultTableModel();
+    modelo.setColumnIdentifiers(new String[] {
+        "ID", "Cliente", "Mecánico", "Descripción", "Precio", "Estado", "Ingreso", "Entrega"
+    });
+
+    for (Odt o : lista) {
+        modelo.addRow(new Object[] {
+            o.getId(),
+            o.getCliente().getNombre(),
+            o.getMecanico().getNombre(),
+            o.getDescripcion(),
+            o.getCostoTotal(),
+            o.getEstado(),
+            o.getFechaIngreso(),
+            o.getFechaEntrega()
+        });
+    }
+
+    jTable1.setModel(modelo);
+}
     /**
      * @param args the command line arguments
      */

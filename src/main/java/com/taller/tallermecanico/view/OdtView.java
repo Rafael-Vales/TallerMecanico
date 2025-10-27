@@ -1,8 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.taller.tallermecanico.view;
+
+import com.taller.tallermecanico.dao.ClienteDao;
+import com.taller.tallermecanico.model.Cliente;
+import com.taller.tallermecanico.model.Mecanico;
+import com.taller.tallermecanico.dao.MecanicoDao;
+import com.taller.tallermecanico.model.Odt;
+import javax.swing.JOptionPane;
+import java.time.LocalDate;
+
+
 
 /**
  *
@@ -15,6 +21,15 @@ public class OdtView extends javax.swing.JFrame {
      */
     public OdtView() {
         initComponents();
+        cargarCombos();
+           jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+    public void keyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '.' && c != ',') {
+            evt.consume(); 
+        }
+    }
+});
     }
 
     /**
@@ -45,6 +60,11 @@ public class OdtView extends javax.swing.JFrame {
         jLabel1.setText("Cliente:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Mecanico:");
 
@@ -82,6 +102,11 @@ public class OdtView extends javax.swing.JFrame {
         });
 
         jButton5.setText("Cancelar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,14 +115,13 @@ public class OdtView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -105,15 +129,12 @@ public class OdtView extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
@@ -167,13 +188,75 @@ public class OdtView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        try {
+        ClienteComboItem clienteItem = (ClienteComboItem) jComboBox1.getSelectedItem();
+        MecanicoComboItem mecanicoItem = (MecanicoComboItem) jComboBox2.getSelectedItem();
+
+        if (clienteItem == null || mecanicoItem == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un cliente y un mecánico.");
+            return;
+        }
+
+        String descripcion = jTextField1.getText().trim();
+        if (descripcion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La descripción del problema no puede estar vacía.");
+            return;
+        }
+
+        double costo;
+        try {
+            costo = Double.parseDouble(jTextField2.getText().trim());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El costo debe ser un número válido.");
+            return;
+        }
+
+        Odt odt = new Odt();
+        odt.setCliente(new Cliente(clienteItem.getId(), clienteItem.toString(), "", ""));
+        odt.setMecanico(new Mecanico(mecanicoItem.getId(), mecanicoItem.toString(), 0, "", 0));
+        odt.setDescripcion(descripcion);
+        odt.setCostoTotal(costo);
+        odt.setEstado("Pendiente");
+        odt.setFechaIngreso(LocalDate.now());
+        odt.setFechaEntrega(LocalDate.now().plusDays(7)); // entrega estimada
+
+        boolean guardado = new com.taller.tallermecanico.dao.OdtDao().guardarOdt(odt);
+
+        if (guardado) {
+            JOptionPane.showMessageDialog(this, "ODT guardada correctamente.");
+            jTextField1.setText("");
+            jTextField2.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar la ODT.");
+        }
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Ocurrió un error: " + ex.getMessage());
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         new ListaOdtView().setVisible(true);   
     this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "¿Estás seguro de que querés salir de la aplicación?",
+        "Salir",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        System.exit(0); 
+    } 
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,6 +293,64 @@ public class OdtView extends javax.swing.JFrame {
         });
     }
 
+private static class ClienteComboItem {
+    private final int id;
+    private final String nombre;
+
+    public ClienteComboItem(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
+}
+
+
+private static class MecanicoComboItem {
+    private final int id;
+    private final String nombre;
+
+    public MecanicoComboItem(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
+}
+private void cargarCombos() {
+    ClienteDao clienteDao = new ClienteDao();
+    java.util.List<Cliente> clientes = clienteDao.listarClientes();
+
+    
+    jComboBox1.removeAllItems();
+    for (Cliente c : clientes) {
+        ((javax.swing.JComboBox) jComboBox1).addItem(new ClienteComboItem(c.getId(), c.getNombre()));
+    }
+
+    MecanicoDao mecanicoDao = new MecanicoDao();
+    java.util.List<com.taller.tallermecanico.model.Mecanico> mecanicos = mecanicoDao.listarMecanicos();
+
+    jComboBox2.removeAllItems();
+    for (com.taller.tallermecanico.model.Mecanico m : mecanicos) {
+        ((javax.swing.JComboBox) jComboBox2).addItem(new MecanicoComboItem(m.getId(), m.getNombre()));
+    }
+}
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -225,3 +366,5 @@ public class OdtView extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
+
+

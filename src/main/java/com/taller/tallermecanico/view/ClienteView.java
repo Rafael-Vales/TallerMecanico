@@ -1,12 +1,25 @@
 
 package com.taller.tallermecanico.view;
 
+import com.taller.tallermecanico.dao.ClienteDao;
+import com.taller.tallermecanico.model.Cliente;
+import javax.swing.JOptionPane;
+
 
 public class ClienteView extends javax.swing.JFrame {
 
     
     public ClienteView() {
         initComponents();
+        TFInputTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+    @Override
+    public void keyTyped(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '\b') {
+            evt.consume(); 
+        }
+    }
+});
     }
 
    
@@ -23,7 +36,7 @@ public class ClienteView extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        Vehiculo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestor de Cliente");
@@ -45,6 +58,11 @@ public class ClienteView extends javax.swing.JFrame {
         });
 
         jButton1.setText("Guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Listar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -69,9 +87,9 @@ public class ClienteView extends javax.swing.JFrame {
 
         jLabel3.setText("Vehiculo:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        Vehiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                VehiculoActionPerformed(evt);
             }
         });
 
@@ -94,7 +112,7 @@ public class ClienteView extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addGap(18, 18, 18)
-                            .addComponent(jTextField1))
+                            .addComponent(Vehiculo))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -119,7 +137,7 @@ public class ClienteView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Vehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
@@ -146,18 +164,56 @@ public class ClienteView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       // TODO add your handling code here:
+int confirm = JOptionPane.showConfirmDialog(
+        this,
+        "¿Estás seguro de que querés salir de la aplicación?",
+        "Salir",
+        JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        System.exit(0); 
+    }       // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        MainView main = new MainView();
         main.setVisible(true);
-        this.dispose();  // Cierra la ventana actual // TODO add your handling code here:
+        this.dispose(); 
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nombre = TFInputNombre.getText();
+    String telefono = TFInputTelefono.getText();
+    String vehiculo = Vehiculo.getText();
+
+    if (nombre.isEmpty() || vehiculo == null || vehiculo.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe completar el nombre y el vehículo.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    if (!telefono.matches("\\d+")) {
+    JOptionPane.showMessageDialog(this, "El teléfono solo debe contener números.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+    Cliente cliente = new Cliente();
+    cliente.setNombre(nombre);
+    cliente.setTelefono(telefono);
+    cliente.setVehiculo(vehiculo);
+
+    ClienteDao.guardarCliente(cliente);
+
+    JOptionPane.showMessageDialog(this, " Cliente guardado correctamente.");
+    
+    
+    TFInputNombre.setText("");
+    TFInputTelefono.setText("");
+    Vehiculo.setText("");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void VehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_VehiculoActionPerformed
 
     
     public static void main(String args[]) {
@@ -189,6 +245,7 @@ public class ClienteView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField TFInputNombre;
     private javax.swing.JTextField TFInputTelefono;
+    private javax.swing.JTextField Vehiculo;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -196,6 +253,5 @@ public class ClienteView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
