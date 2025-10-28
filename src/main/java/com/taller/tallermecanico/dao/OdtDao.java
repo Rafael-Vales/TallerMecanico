@@ -17,8 +17,7 @@ import java.util.List;
 public class OdtDao {
 
     public boolean guardarOdt(Odt o) {
-        String sql = "INSERT INTO odt (cliente_id, mecanico_id, descripcion, estado, fecha_ingreso, fecha_entrega, costo_total) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
+String sql = "INSERT INTO odt (cliente_id, mecanico_id, descripcion, estado, fecha_ingreso, fecha_entrega, costo_total) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = Conexion.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
