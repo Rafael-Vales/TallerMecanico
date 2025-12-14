@@ -3,15 +3,29 @@ package com.taller.tallermecanico.view;
 import com.taller.tallermecanico.dao.ClienteDao;
 import com.taller.tallermecanico.model.Cliente;
 import javax.swing.*;
+
 /**
- *
+ * Ventana de edición de cliente para modificar registros de clientes existentes.
+ * Esta ventana proporciona una interfaz de formulario para editar información del cliente
+ * (nombre, teléfono, vehículo) con validación y un mecanismo de callback para actualizar
+ * la vista padre después de actualizaciones exitosas.
+ * 
  * @author rafaelvales
  */
 public class EditarClienteView extends javax.swing.JFrame {
+    /** Función de callback a ejecutar después de que se cierre la ventana. */
     private Runnable onCloseCallback; 
 
+    /** El objeto cliente que se está editando. */
     public Cliente cliente;
 
+    /**
+     * Crea una nueva instancia de EditarClienteView con el cliente y callback especificados.
+     * Inicializa los componentes de la interfaz gráfica, configura la validación de entrada y carga los datos del cliente.
+     *
+     * @param cliente el objeto cliente a editar
+     * @param onCloseCallback función de callback a ejecutar después de una actualización exitosa
+     */
     public EditarClienteView(Cliente cliente, Runnable onCloseCallback) {
         this.cliente = cliente;
         this.onCloseCallback = onCloseCallback; 
@@ -29,6 +43,10 @@ txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
         cargarDatosCliente();
     }
     
+    /**
+     * Carga los datos del cliente en los campos del formulario.
+     * Pobla los campos de texto de nombre, teléfono y vehículo con la información actual del cliente.
+     */
     private void cargarDatosCliente() {
         txtNombre.setText(cliente.getNombre());
         txtTelefono.setText(cliente.getTelefono());
@@ -123,14 +141,33 @@ txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el campo de texto del nombre.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
 
+    /**
+     * Maneja el evento de acción para el campo de texto del teléfono.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de guardar.
+     * Valida los campos de entrada, actualiza el objeto cliente y guarda los cambios en la base de datos.
+     * Ejecuta la función de callback y cierra la ventana en caso de actualización exitosa.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     String nombre = txtNombre.getText();
     String telefono = txtTelefono.getText();

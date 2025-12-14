@@ -12,13 +12,17 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Ventana de lista de órdenes de trabajo (ODT) para mostrar, editar y eliminar órdenes de trabajo.
+ * Esta ventana proporciona una vista de tabla de todas las órdenes de trabajo con opciones para actualizar,
+ * eliminar o regresar a la vista de gestión de órdenes de trabajo.
+ * 
  * @author rafaelvales
  */
 public class ListaOdtView extends javax.swing.JFrame {
 
     /**
-     * Creates new form ListaOdtView
+     * Crea una nueva instancia de ListaOdtView e inicializa los componentes de la interfaz gráfica.
+     * Carga y muestra todas las órdenes de trabajo en la tabla.
      */
     public ListaOdtView() {
         initComponents();
@@ -128,12 +132,25 @@ public class ListaOdtView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el botón de volver.
+     * Regresa a la vista de gestión de órdenes de trabajo y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
        OdtView odtView = new OdtView();
         odtView.setVisible(true);
         this.dispose(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de eliminar.
+     * Solicita confirmación al usuario, luego elimina la orden de trabajo seleccionada de la base de datos.
+     * Actualiza la tabla después de una eliminación exitosa.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         int fila = jTable1.getSelectedRow();
 
@@ -158,6 +175,13 @@ public class ListaOdtView extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de actualizar.
+     * Recupera la orden de trabajo seleccionada de la base de datos y abre la vista de edición.
+     * Cierra la ventana actual después de abrir la vista de edición.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int fila = jTable1.getSelectedRow();
 
@@ -178,6 +202,12 @@ public class ListaOdtView extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "No se pudo cargar la ODT.");
     }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+/**
+ * Carga todas las órdenes de trabajo de la base de datos y popula la tabla.
+ * Limpia los datos existentes de la tabla antes de cargar nuevos datos y configura el modelo de tabla
+ * con columnas para ID, cliente, mecánico, descripción, precio, estado, fecha de ingreso y fecha de entrega.
+ */
 private void cargarTablaOdts() {
     OdtDao dao = new OdtDao();
     List<Odt> lista = dao.listarOdts();

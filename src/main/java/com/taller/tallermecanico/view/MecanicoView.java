@@ -8,13 +8,18 @@ import com.taller.tallermecanico.model.Cliente;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Ventana de gestión de mecánicos para crear y gestionar registros de mecánicos.
+ * Esta ventana proporciona una interfaz de formulario para ingresar información del mecánico
+ * (nombre, DNI, especialización, salario) e incluye validación para campos de entrada numérica.
+ * 
  * @author rafaelvales
  */
 public class MecanicoView extends javax.swing.JFrame {
 
     /**
-     * Creates new form MecanicoView
+     * Crea una nueva instancia de MecanicoView e inicializa los componentes de la interfaz gráfica.
+     * Configura la validación de entrada para restringir el campo DNI solo a entrada numérica
+     * y el campo de salario a entrada numérica con soporte para punto decimal.
      */
     public MecanicoView() {
         initComponents();
@@ -172,12 +177,25 @@ public class MecanicoView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el botón de menú.
+     * Regresa a la vista del menú principal y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         MainView main = new MainView();
         main.setVisible(true);
         this.dispose(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de guardar.
+     * Valida los campos de entrada, crea un nuevo objeto mecánico y lo guarda en la base de datos.
+     * Muestra mensajes de éxito o error según corresponda y limpia el formulario en caso de éxito.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     String nombre = jTextField1.getText();
     String dniTexto = jTextField2.getText();
@@ -235,11 +253,23 @@ public class MecanicoView extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de listar.
+     * Abre la vista de lista de mecánicos y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         new ListaMecanicoView().setVisible(true);   
     this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de cancelar.
+     * Solicita confirmación al usuario antes de salir de la aplicación.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         int confirm = JOptionPane.showConfirmDialog(
         this,

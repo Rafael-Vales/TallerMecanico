@@ -5,10 +5,19 @@ import com.taller.tallermecanico.dao.ClienteDao;
 import com.taller.tallermecanico.model.Cliente;
 import javax.swing.JOptionPane;
 
-
+/**
+ * Ventana de gestión de clientes para crear y gestionar registros de clientes.
+ * Esta ventana proporciona una interfaz de formulario para ingresar información del cliente
+ * (nombre, teléfono, vehículo) e incluye validación para la entrada del número de teléfono.
+ * 
+ * @author rafaelvales
+ */
 public class ClienteView extends javax.swing.JFrame {
 
-    
+    /**
+     * Crea una nueva instancia de ClienteView e inicializa los componentes de la interfaz gráfica.
+     * Configura la validación de entrada para restringir el campo de teléfono solo a entrada numérica.
+     */
     public ClienteView() {
         initComponents();
         TFInputTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -150,19 +159,43 @@ public class ClienteView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el campo de texto del nombre.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void TFInputNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFInputNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TFInputNombreActionPerformed
 
+    /**
+     * Maneja el evento de acción para el campo de texto del teléfono.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void TFInputTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFInputTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TFInputTelefonoActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de listar.
+     * Abre la vista de lista de clientes y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
     new ListaClienteView().setVisible(true);   
     this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de cancelar.
+     * Solicita confirmación al usuario antes de salir de la aplicación.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 int confirm = JOptionPane.showConfirmDialog(
         this,
@@ -176,12 +209,25 @@ int confirm = JOptionPane.showConfirmDialog(
     }       // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de menú.
+     * Regresa a la vista del menú principal y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        MainView main = new MainView();
         main.setVisible(true);
         this.dispose(); 
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de guardar.
+     * Valida los campos de entrada, crea un nuevo objeto cliente y lo guarda en la base de datos.
+     * Muestra mensajes de éxito o error según corresponda y limpia el formulario en caso de éxito.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String nombre = TFInputNombre.getText();
     String telefono = TFInputTelefono.getText();
@@ -211,11 +257,23 @@ int confirm = JOptionPane.showConfirmDialog(
     Vehiculo.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el campo de texto del vehículo.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void VehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VehiculoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_VehiculoActionPerformed
 
     
+    /**
+     * Método principal para lanzar la ventana ClienteView.
+     * Configura el aspecto Nimbus y muestra la ventana de gestión de clientes.
+     *
+     * @param args los argumentos de línea de comandos (no se utilizan)
+     */
     public static void main(String args[]) {
         
         try {

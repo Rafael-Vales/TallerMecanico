@@ -10,14 +10,28 @@ import javax.swing.*;
  */
 
 /**
- *
+ * Ventana de edición de mecánico para modificar registros de mecánicos existentes.
+ * Esta ventana proporciona una interfaz de formulario para editar información del mecánico
+ * (nombre, DNI, especialización, salario) con validación y un mecanismo de callback
+ * para actualizar la vista padre después de actualizaciones exitosas.
+ * 
  * @author rafaelvales
  */
 public class EditarMecanicoView extends javax.swing.JFrame {
 
+   /** El objeto mecánico que se está editando. */
    private Mecanico mecanico;
+   
+   /** Función de callback a ejecutar después de que se cierre la ventana. */
     private Runnable onCloseCallback;
 
+/**
+ * Crea una nueva instancia de EditarMecanicoView con el mecánico y callback especificados.
+ * Inicializa los componentes de la interfaz gráfica, configura la validación de entrada y carga los datos del mecánico.
+ *
+ * @param mecanico el objeto mecánico a editar
+ * @param onCloseCallback función de callback a ejecutar después de una actualización exitosa
+ */
 public EditarMecanicoView(Mecanico mecanico, Runnable onCloseCallback) {
     this.mecanico = mecanico;
     this.onCloseCallback = onCloseCallback;
@@ -45,10 +59,18 @@ txtSueldo.addKeyListener(new java.awt.event.KeyAdapter() {
 
 }
 
+ /**
+  * Constructor por defecto que crea una instancia vacía de EditarMecanicoView.
+  * Este constructor se proporciona para compatibilidad pero no debe usarse directamente.
+  */
  public EditarMecanicoView() {
         initComponents();
     }
 
+    /**
+     * Carga los datos del mecánico en los campos del formulario.
+     * Pobla los campos de texto de nombre, DNI, especialización y salario con la información actual del mecánico.
+     */
     private void cargarDatosMecanico() {
     txtNombre.setText(mecanico.getNombre());
     txtDni.setText(String.valueOf(mecanico.getDni()));
@@ -168,22 +190,53 @@ txtSueldo.addKeyListener(new java.awt.event.KeyAdapter() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el campo de texto del nombre.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
 
+    /**
+     * Maneja el evento de acción para el campo de texto del salario.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void txtSueldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSueldoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSueldoActionPerformed
 
+    /**
+     * Maneja el evento de acción para el campo de texto del DNI.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDniActionPerformed
 
+    /**
+     * Maneja el evento de acción para el campo de texto de especialización.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void txtEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEspecialidadActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEspecialidadActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de guardar.
+     * Valida los campos de entrada, actualiza el objeto mecánico y guarda los cambios en la base de datos.
+     * Ejecuta la función de callback y cierra la ventana en caso de actualización exitosa.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String nombre = txtNombre.getText().trim();
         String dniTexto = txtDni.getText().trim();

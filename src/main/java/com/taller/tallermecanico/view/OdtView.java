@@ -11,13 +11,18 @@ import java.time.LocalDate;
 
 
 /**
- *
+ * Ventana de gestión de órdenes de trabajo (ODT) para crear y gestionar órdenes de trabajo.
+ * Esta ventana proporciona una interfaz de formulario para crear órdenes de trabajo, incluyendo
+ * selección de cliente y mecánico, descripción del problema e información de costo.
+ * 
  * @author rafaelvales
  */
 public class OdtView extends javax.swing.JFrame {
 
     /**
-     * Creates new form OdtView
+     * Crea una nueva instancia de OdtView e inicializa los componentes de la interfaz gráfica.
+     * Carga los datos de clientes y mecánicos en los cuadros combinados y configura la validación de entrada
+     * para el campo de costo para aceptar entrada numérica con soporte para punto decimal.
      */
     public OdtView() {
         initComponents();
@@ -177,16 +182,36 @@ public class OdtView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el campo de texto de descripción del problema.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de menú.
+     * Regresa a la vista del menú principal y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         MainView main = new MainView();
         main.setVisible(true);
         this.dispose(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de guardar.
+     * Valida los campos de entrada, crea un nuevo objeto orden de trabajo y lo guarda en la base de datos.
+     * Establece el estado predeterminado como "Pendiente" y calcula la fecha de entrega estimada.
+     * Muestra mensajes de éxito o error según corresponda y limpia el formulario en caso de éxito.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
         ClienteComboItem clienteItem = (ClienteComboItem) jComboBox1.getSelectedItem();
@@ -236,11 +261,23 @@ public class OdtView extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de listar.
+     * Abre la vista de lista de órdenes de trabajo y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         new ListaOdtView().setVisible(true);   
     this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de cancelar.
+     * Solicita confirmación al usuario antes de salir de la aplicación.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int confirm = JOptionPane.showConfirmDialog(
         this,
@@ -254,12 +291,21 @@ public class OdtView extends javax.swing.JFrame {
     } 
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el cuadro combinado de cliente.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para lanzar la ventana OdtView.
+     * Configura el aspecto Nimbus y muestra la ventana de gestión de órdenes de trabajo.
+     *
+     * @param args los argumentos de línea de comandos (no se utilizan)
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -293,44 +339,95 @@ public class OdtView extends javax.swing.JFrame {
         });
     }
 
+/**
+ * Clase interna que representa un elemento de cliente en el cuadro combinado.
+ * Almacena tanto el ID como el nombre del cliente para fines de visualización y selección.
+ */
 private static class ClienteComboItem {
+    /** El identificador único del cliente. */
     private final int id;
+    
+    /** El nombre del cliente. */
     private final String nombre;
 
+    /**
+     * Construye un ClienteComboItem con el ID y nombre especificados.
+     *
+     * @param id el identificador único del cliente
+     * @param nombre el nombre del cliente
+     */
     public ClienteComboItem(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
+    /**
+     * Obtiene el identificador único del cliente.
+     *
+     * @return el ID del cliente
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve el nombre del cliente como representación en cadena.
+     *
+     * @return el nombre del cliente
+     */
     @Override
     public String toString() {
         return nombre;
     }
 }
 
-
+/**
+ * Clase interna que representa un elemento de mecánico en el cuadro combinado.
+ * Almacena tanto el ID como el nombre del mecánico para fines de visualización y selección.
+ */
 private static class MecanicoComboItem {
+    /** El identificador único del mecánico. */
     private final int id;
+    
+    /** El nombre del mecánico. */
     private final String nombre;
 
+    /**
+     * Construye un MecanicoComboItem con el ID y nombre especificados.
+     *
+     * @param id el identificador único del mecánico
+     * @param nombre el nombre del mecánico
+     */
     public MecanicoComboItem(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
+    /**
+     * Obtiene el identificador único del mecánico.
+     *
+     * @return el ID del mecánico
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve el nombre del mecánico como representación en cadena.
+     *
+     * @return el nombre del mecánico
+     */
     @Override
     public String toString() {
         return nombre;
     }
 }
+
+/**
+ * Carga los datos de clientes y mecánicos en sus respectivos cuadros combinados.
+ * Recupera todos los clientes y mecánicos de la base de datos y popula
+ * los cuadros combinados con objetos ClienteComboItem y MecanicoComboItem.
+ */
 private void cargarCombos() {
     ClienteDao clienteDao = new ClienteDao();
     java.util.List<Cliente> clientes = clienteDao.listarClientes();

@@ -14,8 +14,22 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Objeto de Acceso a Datos (DAO) para gestionar órdenes de trabajo (ODT) en la base de datos.
+ * Esta clase proporciona métodos para operaciones CRUD en registros de órdenes de trabajo, incluyendo
+ * guardar, listar, actualizar, eliminar y recuperar órdenes de trabajo por ID.
+ * Las órdenes de trabajo están vinculadas tanto a clientes como a mecánicos a través de relaciones de clave foránea.
+ * 
+ * @author rafaelvales
+ */
 public class OdtDao {
 
+    /**
+     * Guarda una nueva orden de trabajo en la base de datos.
+     *
+     * @param o el objeto orden de trabajo a guardar
+     * @return true si la orden de trabajo se guardó exitosamente, false en caso contrario
+     */
     public boolean guardarOdt(Odt o) {
 String sql = "INSERT INTO odt (cliente_id, mecanico_id, descripcion, estado, fecha_ingreso, fecha_entrega, costo_total) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = Conexion.getConnection();
@@ -39,6 +53,12 @@ String sql = "INSERT INTO odt (cliente_id, mecanico_id, descripcion, estado, fec
         }
     }
 
+    /**
+     * Recupera todas las órdenes de trabajo de la base de datos con su información de cliente y mecánico asociada.
+     * Los resultados se ordenan por ID de orden de trabajo en orden descendente (más recientes primero).
+     *
+     * @return una lista de todas las órdenes de trabajo en la base de datos
+     */
     public List<Odt> listarOdts() {
         List<Odt> lista = new ArrayList<>();
         String sql = """
@@ -84,6 +104,12 @@ String sql = "INSERT INTO odt (cliente_id, mecanico_id, descripcion, estado, fec
         return lista;
     }
 
+    /**
+     * Elimina una orden de trabajo de la base de datos por su ID.
+     *
+     * @param id el identificador único de la orden de trabajo a eliminar
+     * @return true si la orden de trabajo se eliminó exitosamente, false en caso contrario
+     */
     public boolean eliminarOdt(int id) {
         String sql = "DELETE FROM odt WHERE id = ?";
 
@@ -101,6 +127,12 @@ String sql = "INSERT INTO odt (cliente_id, mecanico_id, descripcion, estado, fec
         }
     }
     
+    /**
+     * Recupera una orden de trabajo de la base de datos por su ID, incluyendo información de cliente y mecánico asociada.
+     *
+     * @param id el identificador único de la orden de trabajo a recuperar
+     * @return el objeto orden de trabajo si se encuentra, null en caso contrario
+     */
     public Odt buscarOdtPorId(int id) {
     String sql = """
         SELECT o.id, o.descripcion, o.estado, o.fecha_ingreso, o.fecha_entrega, o.costo_total,
@@ -147,6 +179,12 @@ String sql = "INSERT INTO odt (cliente_id, mecanico_id, descripcion, estado, fec
     return null;
 }
     
+    /**
+     * Actualiza una orden de trabajo existente en la base de datos.
+     *
+     * @param o el objeto orden de trabajo con información actualizada
+     * @return true si la orden de trabajo se actualizó exitosamente, false en caso contrario
+     */
     public boolean actualizarOdt(Odt o) {
     String sql = """
         UPDATE odt SET cliente_id = ?, mecanico_id = ?, descripcion = ?, estado = ?, 

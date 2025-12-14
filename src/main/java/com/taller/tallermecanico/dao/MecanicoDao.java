@@ -7,8 +7,21 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Objeto de Acceso a Datos (DAO) para gestionar entidades de mecánico (Mecanico) en la base de datos.
+ * Esta clase proporciona métodos para operaciones CRUD en registros de mecánicos, incluyendo
+ * guardar, listar, actualizar, eliminar y recuperar mecánicos por ID.
+ * 
+ * @author rafaelvales
+ */
 public class MecanicoDao {
 
+    /**
+     * Guarda un nuevo mecánico en la base de datos.
+     *
+     * @param m el objeto mecánico a guardar
+     * @return true si el mecánico se guardó exitosamente, false en caso contrario
+     */
     public boolean guardarMecanico(Mecanico m) {
         String sql = "INSERT INTO mecanico (nombre, dni, especialidad, sueldo) VALUES (?, ?, ?, ?)";
 
@@ -30,6 +43,11 @@ public class MecanicoDao {
         }
     }
 
+    /**
+     * Recupera todos los mecánicos de la base de datos, ordenados por nombre en orden ascendente.
+     *
+     * @return una lista de todos los mecánicos en la base de datos
+     */
     public List<Mecanico> listarMecanicos() {
         List<Mecanico> lista = new ArrayList<>();
         String sql = "SELECT * FROM mecanico ORDER BY nombre ASC";
@@ -55,6 +73,12 @@ public class MecanicoDao {
         return lista;
     }
 
+    /**
+     * Elimina un mecánico de la base de datos por su ID.
+     *
+     * @param id el identificador único del mecánico a eliminar
+     * @return true si el mecánico se eliminó exitosamente, false en caso contrario
+     */
     public boolean eliminarMecanico(int id) {
         String sql = "DELETE FROM mecanico WHERE id = ?";
 
@@ -72,6 +96,12 @@ public class MecanicoDao {
         }
     }
 
+    /**
+     * Actualiza un mecánico existente en la base de datos.
+     *
+     * @param m el objeto mecánico con información actualizada
+     * @return true si el mecánico se actualizó exitosamente, false en caso contrario
+     */
     public boolean actualizarMecanico(Mecanico m) {
         String sql = "UPDATE mecanico SET nombre = ?, dni = ?, especialidad = ?, sueldo = ? WHERE id = ?";
 
@@ -85,7 +115,7 @@ public class MecanicoDao {
             stmt.setInt(5, m.getId());
 
             stmt.executeUpdate();
-            System.out.println("✏️ Mecanico actualizado con éxito.");
+            System.out.println(" Mecanico actualizado con éxito.");
             return true;
 
         } catch (SQLException e) {
@@ -94,6 +124,12 @@ public class MecanicoDao {
         }
     }
     
+    /**
+     * Recupera un mecánico de la base de datos por su ID.
+     *
+     * @param id el identificador único del mecánico a recuperar
+     * @return el objeto mecánico si se encuentra, null en caso contrario
+     */
     public Mecanico obtenerMecanicoPorId(int id) {
     Mecanico mecanico = null;
     String sql = "SELECT * FROM mecanico WHERE id = ?";

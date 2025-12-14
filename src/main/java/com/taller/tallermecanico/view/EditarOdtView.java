@@ -8,21 +8,30 @@ import com.taller.tallermecanico.model.Odt;
 import com.taller.tallermecanico.view.EditarOdtView;
 
 /**
- *
+ * Ventana de edición de orden de trabajo (ODT) para modificar órdenes de trabajo existentes.
+ * Esta ventana proporciona una interfaz de formulario para editar información de la orden de trabajo
+ * incluyendo cliente, mecánico, descripción del problema y costo.
+ * 
  * @author rafaelvales
  */
-
-
 public class EditarOdtView extends javax.swing.JFrame {
     
+    /** Mapa que almacena nombres de clientes y sus IDs correspondientes para la selección del cuadro combinado. */
     private java.util.Map<String, Integer> clienteMap = new java.util.HashMap<>();
+    
+    /** Mapa que almacena nombres de mecánicos y sus IDs correspondientes para la selección del cuadro combinado. */
     private java.util.Map<String, Integer> mecanicoMap = new java.util.HashMap<>();
 
-    /**
-     * Creates new form EditarOdtView
-     */
+    /** El objeto orden de trabajo que se está editando. */
     private Odt odt;
 
+/**
+ * Crea una nueva instancia de EditarOdtView con la orden de trabajo especificada.
+ * Inicializa los componentes de la interfaz gráfica, carga datos de clientes y mecánicos en los cuadros combinados,
+ * y pobla el formulario con la información actual de la orden de trabajo.
+ *
+ * @param odt el objeto orden de trabajo a editar
+ */
 public EditarOdtView(Odt odt) {
     this.odt = odt;
     initComponents();
@@ -34,6 +43,11 @@ public EditarOdtView(Odt odt) {
     jTextField1.setText(odt.getDescripcion());
     jTextField2.setText(String.valueOf(odt.getCostoTotal()));
 }
+
+    /**
+     * Constructor por defecto que crea una instancia vacía de EditarOdtView.
+     * Este constructor se proporciona para compatibilidad pero no debe usarse directamente.
+     */
     public EditarOdtView() {
         initComponents();
     }
@@ -146,14 +160,33 @@ public EditarOdtView(Odt odt) {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el campo de texto de descripción del problema.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el campo de texto del precio.
+     * Actualmente no se realiza ninguna acción.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de guardar.
+     * Valida los campos de entrada, actualiza el objeto orden de trabajo y guarda los cambios en la base de datos.
+     * Abre la vista de lista de órdenes de trabajo y cierra la ventana actual en caso de actualización exitosa.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       String descripcion = jTextField1.getText().trim();
     String precioStr = jTextField2.getText().trim();
@@ -212,44 +245,95 @@ public EditarOdtView(Odt odt) {
      * @param args the command line arguments
      */
     
+/**
+ * Clase interna que representa un elemento de cliente en el cuadro combinado.
+ * Almacena tanto el ID como el nombre del cliente para fines de visualización y selección.
+ */
 private static class ClienteComboItem {
+    /** El identificador único del cliente. */
     private final int id;
+    
+    /** El nombre del cliente. */
     private final String nombre;
 
+    /**
+     * Construye un ClienteComboItem con el ID y nombre especificados.
+     *
+     * @param id el identificador único del cliente
+     * @param nombre el nombre del cliente
+     */
     public ClienteComboItem(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
+    /**
+     * Obtiene el identificador único del cliente.
+     *
+     * @return el ID del cliente
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve el nombre del cliente como representación en cadena.
+     *
+     * @return el nombre del cliente
+     */
     @Override
     public String toString() {
         return nombre; // lo que se muestra en el combo
     }
 }
 
+/**
+ * Clase interna que representa un elemento de mecánico en el cuadro combinado.
+ * Almacena tanto el ID como el nombre del mecánico para fines de visualización y selección.
+ */
 private static class MecanicoComboItem {
+    /** El identificador único del mecánico. */
     private final int id;
+    
+    /** El nombre del mecánico. */
     private final String nombre;
 
+    /**
+     * Construye un MecanicoComboItem con el ID y nombre especificados.
+     *
+     * @param id el identificador único del mecánico
+     * @param nombre el nombre del mecánico
+     */
     public MecanicoComboItem(int id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
+    /**
+     * Obtiene el identificador único del mecánico.
+     *
+     * @return el ID del mecánico
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve el nombre del mecánico como representación en cadena.
+     *
+     * @return el nombre del mecánico
+     */
     @Override
     public String toString() {
         return nombre;
     }
 }
 
+/**
+ * Carga los datos de clientes y mecánicos en sus respectivos cuadros combinados.
+ * Recupera todos los clientes y mecánicos de la base de datos, popula los cuadros combinados,
+ * y preselecciona el cliente y mecánico actuales asociados con la orden de trabajo.
+ */
 private void cargarCombos() {
     
     com.taller.tallermecanico.dao.ClienteDao clienteDao = new com.taller.tallermecanico.dao.ClienteDao();

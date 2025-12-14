@@ -9,8 +9,21 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Objeto de Acceso a Datos (DAO) para gestionar entidades de cliente (Cliente) en la base de datos.
+ * Esta clase proporciona métodos para operaciones CRUD en registros de clientes, incluyendo
+ * guardar, listar, actualizar y eliminar clientes.
+ * 
+ * @author rafaelvales
+ */
 public class ClienteDao {
 
+    /**
+     * Guarda un nuevo cliente en la base de datos.
+     *
+     * @param cliente el objeto cliente a guardar
+     * @return true si el cliente se guardó exitosamente, false en caso contrario
+     */
     public static boolean guardarCliente(Cliente cliente) {
         String sql = "INSERT INTO cliente (nombre, telefono, vehiculo) VALUES (?, ?, ?)";
 
@@ -33,6 +46,11 @@ public class ClienteDao {
         
     }
     
+    /**
+     * Recupera todos los clientes de la base de datos, ordenados por nombre en orden ascendente.
+     *
+     * @return una lista de todos los clientes en la base de datos
+     */
     public List<Cliente> listarClientes() {
     List<Cliente> clientes = new ArrayList<>();
     String sql = "SELECT * FROM cliente ORDER BY nombre ASC";
@@ -59,6 +77,12 @@ public class ClienteDao {
     return clientes;
 }
     
+    /**
+     * Elimina un cliente de la base de datos por su ID.
+     *
+     * @param id el identificador único del cliente a eliminar
+     * @return true si el cliente se eliminó exitosamente, false en caso contrario
+     */
     public boolean eliminarCliente(int id) {
     String sql = "DELETE FROM cliente WHERE id = ?";
 
@@ -76,6 +100,12 @@ public class ClienteDao {
     }
 }
     
+    /**
+     * Actualiza un cliente existente en la base de datos.
+     *
+     * @param cliente el objeto cliente con información actualizada
+     * @return true si el cliente se actualizó exitosamente, false en caso contrario
+     */
     public boolean actualizarCliente(Cliente cliente) {
     String sql = "UPDATE cliente SET nombre = ?, telefono = ?, vehiculo = ? WHERE id = ?";
     try (Connection conn = Conexion.getConnection();

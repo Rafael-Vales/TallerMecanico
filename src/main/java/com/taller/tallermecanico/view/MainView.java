@@ -6,9 +6,18 @@ import com.taller.tallermecanico.view.ClienteView;
 import com.taller.tallermecanico.view.MecanicoView;
 import com.taller.tallermecanico.view.OdtView;
 
+/**
+ * Ventana del menú principal para el Sistema de Gestión de Taller Mecánico.
+ * Esta ventana sirve como punto de navegación central, proporcionando acceso a
+ * los módulos de gestión de clientes, gestión de mecánicos y gestión de órdenes de trabajo (ODT).
+ * 
+ * @author rafaelvales
+ */
 public class MainView extends javax.swing.JFrame { 
 
-   
+    /**
+     * Crea una nueva instancia de MainView e inicializa los componentes de la interfaz gráfica.
+     */
     public MainView() {
     initComponents();
 }
@@ -102,6 +111,12 @@ public class MainView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el botón de gestión de ODT.
+     * Abre la vista de gestión de ODT y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         OdtView odtView = new OdtView();
         odtView.setVisible(true);
@@ -109,12 +124,24 @@ public class MainView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de gestión de mecánicos.
+     * Abre la vista de gestión de mecánicos y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         MecanicoView mecanicoView = new MecanicoView();
         mecanicoView.setVisible(true);
         this.dispose(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de gestión de clientes.
+     * Abre la vista de gestión de clientes y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         ClienteView clienteView = new ClienteView();
         clienteView.setVisible(true);
@@ -122,7 +149,10 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
-     * @param args the command line arguments
+     * Método principal para lanzar la ventana MainView.
+     * Configura el aspecto Nimbus y muestra la ventana del menú principal.
+     *
+     * @param args los argumentos de línea de comandos (no se utilizan)
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

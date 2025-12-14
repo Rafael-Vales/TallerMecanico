@@ -5,11 +5,18 @@ import com.taller.tallermecanico.dao.ClienteDao;
 import com.taller.tallermecanico.model.Cliente;
 import javax.swing.JOptionPane;
 
-
+/**
+ * Ventana de lista de clientes para mostrar, editar y eliminar registros de clientes.
+ * Esta ventana proporciona una vista de tabla de todos los clientes con opciones para actualizar,
+ * eliminar o regresar a la vista de gestión de clientes.
+ * 
+ * @author rafaelvales
+ */
 public class ListaClienteView extends javax.swing.JFrame {
 
     /**
-     * Creates new form ListaView
+     * Crea una nueva instancia de ListaClienteView e inicializa los componentes de la interfaz gráfica.
+     * Carga y muestra todos los clientes en la tabla.
      */
     public ListaClienteView() {
         initComponents();
@@ -134,12 +141,25 @@ public class ListaClienteView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento de acción para el botón de volver.
+     * Regresa a la vista de gestión de clientes y cierra la ventana actual.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         ClienteView clienteView = new ClienteView();
         clienteView.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de eliminar.
+     * Solicita confirmación al usuario, luego elimina el cliente seleccionado de la base de datos.
+     * Actualiza la tabla después de una eliminación exitosa.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         int filaSeleccionada = jTable1.getSelectedRow();
 
@@ -166,6 +186,13 @@ public class ListaClienteView extends javax.swing.JFrame {
     
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    /**
+     * Maneja el evento de acción para el botón de actualizar.
+     * Abre la vista de edición de cliente con los datos del cliente seleccionado.
+     * Actualiza la tabla después de que se cierra la vista de edición.
+     *
+     * @param evt el evento de acción que activó este método
+     */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int filaSeleccionada = jTable1.getSelectedRow();
     if (filaSeleccionada != -1) {
@@ -183,6 +210,11 @@ public class ListaClienteView extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Selecciona un cliente para actualizar.");
     }
     }//GEN-LAST:event_jButton5ActionPerformed
+    
+    /**
+     * Carga todos los clientes de la base de datos y popula la tabla.
+     * Limpia los datos existentes de la tabla antes de cargar nuevos datos.
+     */
     private void cargarTablaClientes() {
         ClienteDao dao = new ClienteDao();
         java.util.List<Cliente> lista = dao.listarClientes();
